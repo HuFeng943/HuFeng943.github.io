@@ -1,4 +1,5 @@
 @echo off
+chcp 65001
 setlocal
 
 rem 设置提交消息
