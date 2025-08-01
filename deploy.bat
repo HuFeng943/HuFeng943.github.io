@@ -2,21 +2,18 @@
 chcp 65001
 setlocal enabledelayedexpansion
 
-rem 设置提交消息
-for /f "tokens=1-6 delims= " %%a in ('date /t') do (
-    set "weekday=%%a"
-    set "month=%%c"
-    set "day=%%d"
-    set "year=%%e"
-)
+rem 获取日期
+set "YY=%date:~0,4%"
+set "MM=%date:~5,2%"
+set "DD=%date:~8,2%"
 
-for /f "tokens=1-4 delims=:," %%a in ('time /t') do (
-    set "hour=%%a"
-    set "minute=%%b"
-    set "ampm=%%c"
-)
+rem 获取时间
+set "HH=%time:~0,2%"
+set "Min=%time:~3,2%"
+set "Sec=%time:~6,2%"
 
-set "commit_message=Update at %year%-%month%-%day% %hour%:%minute% %ampm%"
+rem 组合成提交消息
+set "commit_message=Update at %YY%-%MM%-%DD% %HH%:%Min%:%Sec%"
 
 echo.
 echo ====================================
