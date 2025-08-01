@@ -2,18 +2,13 @@
 chcp 65001
 setlocal enabledelayedexpansion
 
-rem 获取日期
-set "YY=%date:~0,4%"
-set "MM=%date:~5,2%"
-set "DD=%date:~8,2%"
-
 rem 获取时间
 set "HH=%time:~0,2%"
 set "Min=%time:~3,2%"
 set "Sec=%time:~6,2%"
 
 rem 组合成提交消息
-set "commit_message=Update at %YY%-%MM%-%DD% %HH%:%Min%:%Sec%"
+set "commit_message=Update at %date% %HH%:%Min%:%Sec%"
 
 echo.
 echo ====================================
