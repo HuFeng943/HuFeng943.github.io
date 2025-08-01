@@ -1,0 +1,4 @@
+baseURL = 'https://HuFeng943.github.io/'
+languageCode = 'zh-CN'
+title = '我的新 Hugo 网站'
+theme = 'PaperMod'
