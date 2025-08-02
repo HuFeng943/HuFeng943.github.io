@@ -1,3 +1,5 @@
+# 先更新下主题
+git submodule update --remote --merge
 # 将当前目录下的所有修改提交并推送到 GitHub Pages
 
 # 获取当前日期和时间，并格式化
@@ -24,4 +26,4 @@ Write-Host "部署完成"
 Write-Host "----------------------------------------"
 
 # 暂停，等待用户按键
-Read-Host "按任意键退出"
+Read-Host "回车键继续..."

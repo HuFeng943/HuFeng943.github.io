@@ -1,4 +1,108 @@
+# hugo.toml
 baseURL = 'https://HuFeng943.github.io/'
-languageCode = 'zh-CN'
-title = '我的新 Hugo 网站'
+languageCode= "zh"
+defaultContentLanguage="zh"
 theme = 'PaperMod'
+title = "HuFeng943's Blog"
+copyright = "本站文章全部采用 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans) 许可协议"
+
+# 启用各种基础功能
+enableRobotsTXT = true #  robots.txt，对SEO很有用
+enableEmoji = true #  Emoji
+enableGitInfo = true #  Git 信息，在文章中显示最后更新时间
+enableInlineShortcodes = true # Markdown里使用Shortcodes
+pygmentsUseClasses = true #代码高亮
+
+# 构建选项
+# 默认false
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"] # 首页输出 HTML, RSS 和 JSON
+# 代码高亮配置
+[markup]
+  [markup.highlight]
+    # anchorLineNos= true
+    codeFences=true
+    guessSyntax= true
+    lineNos=true
+    # noClasses= false
+    style= "monokai"
+
+# Minify 压缩配置
+[minify]
+  disableHTML = false
+  disableCSS = false
+  disableJS = false
+  disableXML = true
+  minifyOutput = true
+
+# 分页配置
+[pagination]
+  pagerSize = 8 # 每页显示8篇文章
+  disableAliases = false # 禁用别名分页
+
+
+# 网站元信息
+[params]
+  env = "production"
+  description = "废话与经验记录"
+  author = "HuFeng943"
+  DateFormat = "2006年1月2日" # 标准的Go语言时间格式
+  defaultTheme = "dark" # 黑点给我
+  disableThemeToggle = true # 禁用主题切换按钮
+  ShowReadingTime = true #显示阅读时间
+  ShowBreadCrumbs = false # 面包屑导航
+  ShowLastUpdated = true # 显示最后更新时间
+  ShowPostNavLinks = true # 文章导航推荐
+  ShowCodeCopyButtons = true # 代码复制按钮
+  ShowPageNums = false # 分页
+  ShowToc = true # 显示文章目录
+  TocOpen = true
+  comments = true # 启用评论功能
+
+  [params.assets]
+    disableHLJS= true
+  [params.homeInfoParams]
+    Title = "你好！👋"
+    Content = """欢迎来到我的博客，我会在这里记录一些生活中的琐事和技术经验。"""
+
+  [params.fuseOpts]
+    isCaseSensitive = false # 是否区分大小写
+    shouldSort = true # 最相关的排在前面
+    location = 0 # 搜索位置，0表示全文搜索
+    distance = 2000 # 搜索距离，全部搜索
+    threshold = 0.3 # 搜索阈值，0.3不错
+    keys =  ["title", "permalink", "summary", "content"]# 搜索的字段
+
+# sitemap配置，对SEO很重要
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.4
+  filename = "sitemap.xml" # 显式指定文件名
+
+# 税分类配置
+[taxonomies]
+  category = "categories"
+  # tag = "tags" # 我是不会打tag的
+  # series = "series"
+
+# 菜单配置
+[[menu.main]]
+  identifier = "categories"
+  name = "分类"
+  url = "/categories/"
+  weight = 10
+
+[[menu.main]]
+  identifier = "search"
+  name = "搜索"
+  url = "/search/" 
+  weight = 20
+[[menu.main]]
+  identifier = "about"
+  name = "找我？"
+  url = "/about/"
+  weight = 30
