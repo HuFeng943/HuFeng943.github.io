@@ -1,6 +1,6 @@
 +++
 date = '2025-08-03T11:28:33+08:00'
-draft = true
+draft = false
 title = '[自用]软件收藏夹'
 [sitemap]
 changefreq = "weekly"
