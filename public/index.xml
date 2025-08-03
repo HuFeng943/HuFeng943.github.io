@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>HuFeng943&#39;s Blog</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on HuFeng943&#39;s Blog</description>
+    <generator>Hugo -- 0.148.2</generator>
+    <language>zh</language>
+    <copyright>本站文章全部采用 CC BY-NC 4.0 许可协议</copyright>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[自用]软件收藏夹</title>
+      <link>http://localhost:1313/posts/software-favorites/</link>
+      <pubDate>Sun, 03 Aug 2025 11:28:33 +0800</pubDate>
+      <guid>http://localhost:1313/posts/software-favorites/</guid>
+      <description>&lt;p&gt;收藏我常用的不同用途的软件，方便恢复工作环境。&lt;br&gt;
+一些过于常见的就不说了，文章会不定时更新。&lt;/p&gt;
+&lt;h1 id=&#34;windows&#34;&gt;Windows&lt;/h1&gt;
+&lt;h2 id=&#34;上网工具&#34;&gt;上网工具&lt;/h2&gt;
+&lt;h3 id=&#34;浏览器&#34;&gt;浏览器&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.firefox.com/zh-CN/&#34; target=&#34;_blank&#34;&gt;Firefox&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原先用了很久的Chromium内核Edge了,&lt;del&gt;微软还给我送了两次肯德基100元代金劵&lt;/del&gt;&lt;br&gt;
+不过变得越来越臃肿，对我来说越来越不方便了，于是就换成Firefox了。&lt;br&gt;
+虽然网上说Firefox对一些网站支持不太好，但是目前我没遇到（可能是网上习惯不同）&lt;br&gt;
+注意别下到北京火狐了(&lt;a href=&#34;https://www.firefox.com.cn&#34; target=&#34;_blank&#34;&gt;www.firefox.com.cn&lt;/a&gt;),虽然&lt;a href=&#34;https://www.firefox.com.cn/farewell/&#34; target=&#34;_blank&#34;&gt;&lt;strong&gt;2025年9月29日&lt;/strong&gt;后就关闭了&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id=&#34;浏览器插件&#34;&gt;浏览器插件&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://immersivetranslate.com/&#34; target=&#34;_blank&#34;&gt;沉浸式翻译&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;强烈推荐，可以指定许多种翻译API&lt;br&gt;
+同时可以双语对照、油管视频字幕翻译&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.tampermonkey.net/&#34; target=&#34;_blank&#34;&gt;篡改猴(Tampermonkey)&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这个不用介绍了吧&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.bsbsb.top/&#34; target=&#34;_blank&#34;&gt;小电视空降助手&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;可以跳过B站的广告，功能来自油管插件SponsorBlock&lt;br&gt;
+主要是根据社区标记广告的部分然后自动跳过，也会标记视频是不是收了钱的广告/推广&lt;br&gt;
+&lt;del&gt;不知道哪个神人把原神官方账号的所有视频都标了广告&lt;/del&gt;，现已整改&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://darkreader.org/&#34; target=&#34;_blank&#34;&gt;Dark Reader&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;让没用黑暗模式的网页变成黑暗样式&lt;br&gt;
+在大部分网站上工作的很好&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/gorhill/uBlock#ublock-origin&#34; target=&#34;_blank&#34;&gt;uBlock Origin&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;免费好用开源的请求过滤工具，主要用于拦截广告&lt;br&gt;
+感觉比其他的拦截广告插件要轻量很多&lt;br&gt;
+拦截Youtube的视频广告也不会重新提示&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id=&#34;代理软件&#34;&gt;代理软件&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/clash-verge-rev/clash-verge-rev&#34; target=&#34;_blank&#34;&gt;Clash Verge Rev&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;维护勤快，Tauri做的UI也不错，就是不太流畅，有时候会卡一下，目前在用&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/chen08209/FlClash&#34; target=&#34;_blank&#34;&gt;FlClash&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;用了是Material You设计，在Window上面看起来有点奇怪，相比Clash Verge Rev更加流畅&lt;br&gt;
+不过在我的电脑上，休眠后重启会遇到Bug，就换掉了&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;系统工具&#34;&gt;系统工具&lt;/h2&gt;
+&lt;h3 id=&#34;效率工具&#34;&gt;效率工具&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.flowlauncher.com/&#34; target=&#34;_blank&#34;&gt;Flow Launcher&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;快捷软件启动器，可以按快捷键（默认Alt+空格）打开一个搜索框&lt;br&gt;
+在搜索框内输入要启动的应用名就可以快速启动~~，这Win+S搜索也可以吧~~&lt;br&gt;
+但是还是有不同之处的，有空我会专门写一篇文章介绍一下（挖坑）&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.voidtools.com/zh-cn/&#34; target=&#34;_blank&#34;&gt;Everything&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你要搜文件，这个比Windows自带的文件搜索强万倍，十分快速，轻量&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://zh.snipaste.com/&#34; target=&#34;_blank&#34;&gt;Snipaste&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一个贴图工具，但是截图也很好用&lt;br&gt;
+基本上我把它当作个截图工具。有时候需要对照的时候，贴图功能用上&lt;br&gt;
+软件有专业付费版，不过完全没必要，只要你是个人用户，用免费版本完全够用&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/namazso/OpenHashTab&#34; target=&#34;_blank&#34;&gt;OpenHashTab&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在文件或文件夹的属性页面加一个“哈希信息”的标签栏，可以很方便的查看文件的哈希值&lt;br&gt;
+如果是文件夹则会执行遍历，也可以保存哈希信息，用于分享校验&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id=&#34;硬件工具&#34;&gt;硬件工具&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://openrgb.org/&#34; target=&#34;_blank&#34;&gt;OpenRGB&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

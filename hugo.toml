@@ -65,6 +65,12 @@ buildExpired = false
 
   [params.assets]
     disableHLJS= true
+    favicon = "favicon.ico"
+    favicon16x16 = "favicon-16x16.png"
+    favicon32x32 = "favicon-32x32.png"
+    apple_touch_icon = "apple-touch-icon.png"
+    theme_color = "#0076b9" # 主题色
+    msapplication_TileColor = "#0076b9"
   [params.homeInfoParams]
     Title = "你好！👋"
     Content = """欢迎来到我的博客，我会在这里记录一些生活中的琐事和技术经验。"""
@@ -76,6 +82,7 @@ buildExpired = false
     distance = 2000 # 搜索距离，全部搜索
     threshold = 0.3 # 搜索阈值，0.3不错
     keys =  ["title", "permalink", "summary", "content"]# 搜索的字段
+  
 
 # sitemap配置，对SEO很重要
 [sitemap]
