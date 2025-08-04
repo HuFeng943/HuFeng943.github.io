@@ -259,8 +259,8 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
         Write-Host  (" " * 4) "${CW}----${CG}所有修改已经添加到暂存区中$RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}修改未添加到暂存区中：$RC"
-        $IntError++
-        $DeployFailed = $true
+        $script:IntError++
+        $script:DeployFailed = $true
         Resolve-GitError $jobOutput
     }
     Write-Host  (" " * 4) "${CW}--提交暂存区文件中...$RC"
@@ -272,8 +272,8 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
         Write-Host  (" " * 4) "${CW}------提交信息: $commitMessage $RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}提交暂存区文件失败：$RC"
-        $IntError++
-        $DeployFailed = $true
+        $script:IntError++
+        $script:DeployFailed = $true
         Resolve-GitError $jobOutput
     }
     Write-Host  (" " * 4) "${CW}----将本地重置到最新的提交中...$RC"
@@ -284,8 +284,8 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
         Write-Host  (" " * 4) "${CW}----${CG}本地重置到最新的提交成功！$RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}本地重置到最新的提交失败：$RC"
-        $IntError++
-        $DeployFailed = $true
+        $script:IntError++
+        $script:DeployFailed = $true
         Resolve-GitError $jobOutput
     }
     Write-Host  (" " * 4) "${CW}----覆盖远程仓库的分支中...$RC"
@@ -296,8 +296,8 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
         Write-Host  (" " * 4) "${CW}----${CG}覆盖远程仓库的分支成功！$RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}覆盖远程仓库的分支失败：$RC"
-        $IntError++
-        $DeployFailed = $true
+        $script:IntError++
+        $script:DeployFailed = $true
         Resolve-GitError $jobOutput
     }
 } 6>&1 | Tee-Object -Variable tempOutput
@@ -312,7 +312,7 @@ foreach ($line in $tempOutput) {#计算要清空的行数
 }
 Clear-LastLine $lineSu # 清空
 if($DeployFailed) {
-    Write-Host  (" " * 4) "${CR}✘-同步和部署网站时出现错误，请检查输出$RC"
+    Write-Host  (" " * 4) "${CR}✘-同步和部署网站时出现错误$RC"
 }else {
     Write-Host  (" " * 4) "${CG}✔-同步和部署网站成功！$RC"
 }
@@ -325,6 +325,13 @@ foreach ($line in $tempOutput) {# 出现输出下面的内容
             # 如果不是空行，就正常输出
             Write-Host $line.MessageData.Message -ForegroundColor $line.MessageData.ForegroundColor -BackgroundColor $line.MessageData.BackgroundColor
         }
+}
+# 输出总结
+if ($IntError -gt 0) {
+    Write-Host  (" " * 4) "${CR}共出现了${IntError}个错误，请检查输出$RC"
+}
+if ($Warn -gt 0) {
+    Write-Host  (" " * 4) "${CY}共出现了${Warn}个警告，请确保已了解$RC"
 }
 Write-Host  (" " * 4) "${CW}程序执行完成，请按任意键退出$RC"
 Write-Host "${CW}----------------------------------------$RC"
