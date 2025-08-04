@@ -195,9 +195,9 @@ Write-Host "${CW}----------------------------------------$RC"
 $jobOutput = git submodule update --remote 2>&1
 Clear-LastLine 2
 if ($LASTEXITCODE -eq 0) {
-    Write-Host  (" " * 4) "${CG}✔-更新主题文件成功！$RC"
+    Write-Host  (" " * 4) "${CG}✓-更新主题文件成功！$RC"
 }else {
-    Write-Host  (" " * 4) "${CR}✘-更新主题文件失败：$RC"
+    Write-Host  (" " * 4) "${CR}✗-更新主题文件失败：$RC"
     $IntError++
     Resolve-GitError $jobOutput
 }
@@ -206,18 +206,18 @@ Write-Host "${CW}----------------------------------------$RC"
 $jobOutput = git submodule foreach --recursive "git reset --hard && git clean -fdx" 2>&1# 删掉多余的主题文件
 Clear-LastLine 2
 if ($LASTEXITCODE -eq 0) {
-    Write-Host  (" " * 4) "${CG}✔-重置主题文件成功！$RC"
+    Write-Host  (" " * 4) "${CG}✓-重置主题文件成功！$RC"
     $themeList = ([regex]::Matches($jobOutput, "Entering 'themes/(.*?)'") | ForEach-Object { $_.Groups[1].Value }) -join "、"
     Write-Host (" " * 4) "${CW}----拥有主题：$themeList $RC"
 }else {
-    Write-Host  (" " * 4) "${CR}✘-重置主题文件失败：$RC"
+    Write-Host  (" " * 4) "${CR}✗-重置主题文件失败：$RC"
     $IntError++
     Resolve-GitError $jobOutput
 }
 # 删除构建文件
 if (-not (Test-Path -Path $publicPath)) {
     # 如果路径不存在
-    Write-Host  (" " * 4) "${CG}✔-没有本地构建文件$RC"
+    Write-Host  (" " * 4) "${CG}✓-没有本地构建文件$RC"
 } else {
     Write-Host  (" " * 4) "${CW}○-正在删除本地构建文件...$RC"
     Write-Host "${CW}----------------------------------------$RC"
@@ -225,13 +225,13 @@ if (-not (Test-Path -Path $publicPath)) {
         # 如果路径存在，尝试删除它
         Remove-Item -Path $publicPath -Recurse -Force -ErrorAction Stop -ProgressAction SilentlyContinue
         Clear-LastLine 2
-        Write-Host  (" " * 4) "${CG}✔-删除本地构建文件成功！$RC"
+        Write-Host  (" " * 4) "${CG}✓-删除本地构建文件成功！$RC"
     } catch {
         $IntError++
         Clear-LastLine 2
         # 根据错误类型进行判断
         $errorMessage = $_.Exception.Message
-        Write-Host (" " * 4) "${CR}✘-删除本地构建文件失败：$RC"
+        Write-Host (" " * 4) "${CR}✗-删除本地构建文件失败：$RC"
         if ($errorMessage -match "Access to the path") {
             Write-Host (" " * 4) "${CW}----${CR}权限不足，无法删除该文件夹。$RC"
         } elseif ($errorMessage -match "because it is being used by another process") {
@@ -302,7 +302,6 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
     }
 } 6>&1 | Tee-Object -Variable tempOutput
 Write-Host "${CW}----------------------------------------$RC"
-Start-Sleep -Seconds 3
 foreach ($line in $tempOutput) {#计算要清空的行数
     if ($line.MessageData.Message.Trim().Length -eq 0) {
             $lineSu--
@@ -312,9 +311,9 @@ foreach ($line in $tempOutput) {#计算要清空的行数
 }
 Clear-LastLine $lineSu # 清空
 if($DeployFailed) {
-    Write-Host  (" " * 4) "${CR}✘-同步和部署网站时出现错误$RC"
+    Write-Host  (" " * 4) "${CR}✗-同步和部署网站时出现错误$RC"
 }else {
-    Write-Host  (" " * 4) "${CG}✔-同步和部署网站成功！$RC"
+    Write-Host  (" " * 4) "${CG}✓-同步和部署网站成功！$RC"
 }
 foreach ($line in $tempOutput) {# 出现输出下面的内容
     if ($line.MessageData.Message.Trim().Length -eq 0) {
