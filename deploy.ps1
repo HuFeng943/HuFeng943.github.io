@@ -5,10 +5,12 @@ $CG = "`e[92m"
 $CY = "`e[93m"
 $CW = "`e[97m"
 $RC = "`e[0m"
-
+$Warn = 0 # 警告数量
+$DeployFailed = $False
+$TimeoutSeconds = 5 # 确认执行的超时时间
 $IntError = 0 # 错误数量
 $publicPath = ".\public"
-#Gemini写的三个函数
+#Gemini写的几个函数
 function Resolve-GitError {
     param(
         [Parameter(Mandatory=$true)]
@@ -99,17 +101,55 @@ function Clear-LastLine {
     # 这样新的输出就会从这里开始，覆盖掉之前的内容
     [System.Console]::SetCursorPosition(0, $initialCursorTop - $LinesToClear)
 }
+function Confirm-Execution {
+    param(
+        [Parameter(Mandatory=$false)]
+        [int]$TimeoutSeconds = 5
+    )
 
+    # 获取当前时间
+    $startTime = [System.DateTime]::Now
+    $inputKey = $null
+
+    while ($true) {
+        # 检查是否有按键输入
+        if ([System.Console]::KeyAvailable) {
+            $inputKey = [System.Console]::ReadKey($true)
+            break
+        }
+        
+        # 计算剩余时间
+        $elapsedTime = ([System.DateTime]::Now - $startTime).TotalSeconds
+        $remainingTime = [System.Math]::Round($TimeoutSeconds - $elapsedTime)
+
+        # 倒计时结束，返回 true
+        if ($remainingTime -le 0) {
+            return $true
+        }
+
+        # 实时更新倒计时
+        Write-Host "倒计时：$remainingTime" -NoNewline @ColorWarning
+        Start-Sleep -Milliseconds 250
+        
+        # 清除倒计时数字，以便更新
+        $clearString = " " * ([string]$remainingTime.Length + 5)
+        Write-Host "$clearString`r" -NoNewline @ColorWarning
+    }
+
+    Write-Host "" # 换行
+
+    # 判断用户输入
+    if ($inputKey.KeyChar -eq 'y' -or $inputKey.KeyChar -eq 'Y') {
+        return $true
+    } else {
+        return $false
+    }
+}
 function Get-GitStatusFormatted {
     # 执行 git status 命令并捕获所有输出
     $statusOutput = git status 2>&1
-
     # 按行分割输出内容
     $lines = $statusOutput.Split("`n")
-
-    # 定义一个数组来存放格式化后的输出
-    $formattedOutput = @()
-    
     # 提取分支信息和状态
     $branchInfoLine = $lines | Select-String -Pattern "^On branch\s+(.*)"
     $branchStatusLine = $lines | Select-String -Pattern "Your branch is (.*)"
@@ -118,7 +158,8 @@ function Get-GitStatusFormatted {
     if ($branchInfoLine) {
         $branchName = $branchInfoLine.Matches.Groups[1].Value.Trim()
         if ($branchName -ne "main") {
-            $formattedOutput += '警告：当前分支不是 `main`，而是 `$branchName`'
+            Write-Host  (" " * 4) "${CY}警告: 当前分支不是 `main`，而是 `$branchName` $RC"
+            $Warn++
         }
     }
 
@@ -126,7 +167,8 @@ function Get-GitStatusFormatted {
     if ($branchStatusLine) {
         $statusMessage = $branchStatusLine.Matches.Groups[1].Value.Trim()
         if ($statusMessage -ne "up to date with 'origin/main'.") {
-            $formattedOutput += '警告：分支状态不完全同步，当前状态是 `$statusMessage`'
+            Write-Host  (" " * 4) "${CY}警告: 分支状态不完全同步，当前状态是 `$statusMessage` $RC"
+            $Warn++
         }
     }
 
@@ -136,18 +178,56 @@ function Get-GitStatusFormatted {
 
         if ($trimmedLine -match "^new file:\s+(.*)") {
             $fileName = $Matches[1].Trim()
-            $formattedOutput += "新增文件：$fileName"
+            Write-Host  (" " * 4) "${CW}新增文件：$fileName $RC"
         } elseif ($trimmedLine -match "^modified:\s+(.*)") {
             $fileName = $Matches[1].Trim()
-            $formattedOutput += "修改文件：$fileName"
+            Write-Host  (" " * 4) "${CW}修改文件：$fileName $RC"
         } elseif ($trimmedLine -match "^deleted:\s+(.*)") {
             $fileName = $Matches[1].Trim()
-            $formattedOutput += "删除文件：$fileName"
+            Write-Host  (" " * 4) "${CW}删除文件：$fileName $RC"
         }
     }
+    Write-Host  (" " * 4) "${CY}确定要继续吗？${CY}这将会覆盖掉你的仓库！$RC"
+    Write-Host  (" " * 4) "${CY}请等待5秒或者按下Y键继续，按下其他键退出 $RC"
+    # 获取当前时间
+    $startTime = [System.DateTime]::Now
+    $inputKey = $null
 
-    # 返回格式化后的结果
-    return $formattedOutput
+    while ($true) {
+        # 检查是否有按键输入
+        if ([System.Console]::KeyAvailable) {
+            $inputKey = [System.Console]::ReadKey($true)
+            break
+        }
+        
+        # 计算剩余时间
+        $elapsedTime = ([System.DateTime]::Now - $startTime).TotalSeconds
+        $remainingTime = [System.Math]::Round($TimeoutSeconds - $elapsedTime)
+
+        # 倒计时结束，返回 true
+        if ($remainingTime -le 0) {
+            Clear-LastLine 1
+            return $true
+        }
+        # 实时更新倒计时
+        Write-Host  (" " * 4) "${CY}倒计时：        $remainingTime"
+        Write-Host "${CW}----------------------------------------$RC"
+        Start-Sleep -Milliseconds 250
+        Clear-LastLine 2
+    }
+
+    Write-Host "" # 换行
+
+    # 判断用户输入
+    if ($inputKey.KeyChar -eq 'y' -or $inputKey.KeyChar -eq 'Y') {
+        Clear-LastLine 3
+        return $true
+    } else {
+        Clear-LastLine 3
+        Write-Host  (" " * 4) "${CR}操作已取消，退出脚本$RC"
+        Write-Host "${CW}----------------------------------------$RC"
+        exit 0
+    }
 }
 # 先更新下主题
 Write-Host "${CW}----------------------------------------$RC"
@@ -188,6 +268,7 @@ if (-not (Test-Path -Path $publicPath)) {
         Clear-LastLine 2
         Write-Host  (" " * 4) "${CG}✔-删除本地构建文件成功！$RC"
     } catch {
+        $IntError++
         Clear-LastLine 2
         # 根据错误类型进行判断
         $errorMessage = $_.Exception.Message
@@ -204,7 +285,7 @@ if (-not (Test-Path -Path $publicPath)) {
         }
     }
 }
-
+Get-GitStatusFormatted
 # 获取当前日期和时间，并格式化
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 $commitMessage = "Update at $timestamp"
@@ -221,6 +302,7 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}修改未添加到暂存区中：$RC"
         $IntError++
+        $DeployFailed = $true
         Resolve-GitError $jobOutput
     }
     Write-Host  (" " * 4) "${CW}--提交暂存区文件中...$RC"
@@ -233,6 +315,7 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}提交暂存区文件失败：$RC"
         $IntError++
+        $DeployFailed = $true
         Resolve-GitError $jobOutput
     }
     Write-Host  (" " * 4) "${CW}----将本地重置到最新的提交中...$RC"
@@ -244,6 +327,7 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}本地重置到最新的提交失败：$RC"
         $IntError++
+        $DeployFailed = $true
         Resolve-GitError $jobOutput
     }
     Write-Host  (" " * 4) "${CW}----覆盖远程仓库的分支中...$RC"
@@ -255,13 +339,12 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}覆盖远程仓库的分支失败：$RC"
         $IntError++
+        $DeployFailed = $true
         Resolve-GitError $jobOutput
     }
 } 6>&1 | Tee-Object -Variable tempOutput
-
+Write-Host "${CW}----------------------------------------$RC"
 Start-Sleep -Seconds 3
-exit 0
-
 foreach ($line in $tempOutput) {#计算要清空的行数
     if ($line.MessageData.Message.Trim().Length -eq 0) {
             $lineSu--
@@ -270,7 +353,11 @@ foreach ($line in $tempOutput) {#计算要清空的行数
     }
 }
 Clear-LastLine $lineSu # 清空
-Write-Host  (" " * 4) "1145141919810"
+if($DeployFailed){
+    Write-Host  (" " * 4) "${CR}✘-同步和部署网站时出现错误，请检查输出$RC"
+}else {
+    Write-Host  (" " * 4) "${CG}✔-同步和部署网站成功！$RC"
+}
 foreach ($line in $tempOutput) {# 出现输出下面的内容
     if ($line.MessageData.Message.Trim().Length -eq 0) {
             # 如果是空行，就输出你想要的内容
@@ -281,17 +368,7 @@ foreach ($line in $tempOutput) {# 出现输出下面的内容
             Write-Host $line.MessageData.Message -ForegroundColor $line.MessageData.ForegroundColor -BackgroundColor $line.MessageData.BackgroundColor
         }
 }
+Write-Host  (" " * 4) "${CW}程序执行完成，请按任意键退出$RC"
+Write-Host "${CW}----------------------------------------$RC"
+$null = [System.Console]::ReadKey()
 exit 0
-
-
-# 推送本地修改到远程仓库
-git push
-
-
-:end
-exit 0
-Write-Host "----------------------------------------"
-Write-Host "部署完成"
-Write-Host "----------------------------------------"
-# 暂停
-Read-Host "回车键继续..."
