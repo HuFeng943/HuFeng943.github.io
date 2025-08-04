@@ -16,50 +16,50 @@ function Resolve-GitError {
     )
     $jobOutput = $jobOutput | Out-String
     if ($jobOutput -match "not a git repository") {
-        Write-Host (" " * 4) "${CW}--${CR}当前目录不是一个Git仓库，请检查是否在博客目录下运行！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}当前目录不是一个Git仓库，请检查是否在博客目录下运行！$RC"
     } elseif ($jobOutput -match "No url found for submodule path") {
-        Write-Host (" " * 4) "${CW}--${CR}在.gitmodules文件中找不到子模块的URL，请检查配置！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}在.gitmodules文件中找不到子模块的URL，请检查配置！$RC"
     } elseif ($jobOutput -match "repository .* not found") {
-        Write-Host (" " * 4) "${CW}--${CR}找不到远程仓库，请检查URL或权限！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}找不到远程仓库，请检查URL或权限！$RC"
     } elseif ($jobOutput -match "branch .* not found") {
-        Write-Host (" " * 4) "${CW}--${CR}主题或分支不存在！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}主题或分支不存在！$RC"
     } elseif ($jobOutput -match "could not read|Connection was reset|Empty reply from server|SSL_ERROR_SYSCALL|The remote end hung up unexpectedly") {
-        Write-Host (" " * 4) "${CW}--${CR}网络连接错误，无法连接到远程仓库。请检查网络、VPN或代理配置！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}网络连接错误，无法连接到远程仓库。请检查网络、VPN或代理配置！$RC"
     } elseif ($jobOutput -match "fatal: Unable to fetch|fatal: Unable to fetch in submodule") {
-        Write-Host (" " * 4) "${CW}--${CR}获取远程数据失败，请检查网络连接！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}获取远程数据失败，请检查网络连接！$RC"
     } elseif ($jobOutput -match "pathspec .* did not match any files") {
-        Write-Host (" " * 4) "${CW}--${CR}指定的文件或路径不存在，请检查`git add`命令！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}指定的文件或路径不存在，请检查`git add`命令！$RC"
     } elseif ($jobOutput -match "A branch named .* already exists") {
-        Write-Host (" " * 4) "${CW}--${CR}本地分支已存在！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}本地分支已存在！$RC"
     } elseif ($jobOutput -match "You are not currently on a branch") {
-        Write-Host (" " * 4) "${CW}--${CR}当前没有在任何分支上，请先切换到分支！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}当前没有在任何分支上，请先切换到分支！$RC"
     } elseif ($jobOutput -match "could not lock config file") {
-        Write-Host (" " * 4) "${CW}--${CR}无法锁定配置文件，可能是权限问题！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}无法锁定配置文件，可能是权限问题！$RC"
     } elseif ($jobOutput -match "You have not told me your name and email") {
-        Write-Host (" " * 4) "${CW}--${CR}你还没有配置Git的用户名和邮箱！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}你还没有配置Git的用户名和邮箱！$RC"
     } elseif ($jobOutput -match "local changes .* would be overwritten") {
-        Write-Host (" " * 4) "${CW}--${CR}有本地修改会覆盖远程内容，请先提交或暂存你的修改！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}有本地修改会覆盖远程内容，请先提交或暂存你的修改！$RC"
     } elseif ($jobOutput -match "Failed to merge") {
-        Write-Host (" " * 4) "${CW}--${CR}合并失败，可能存在冲突！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}合并失败，可能存在冲突！$RC"
     } elseif ($jobOutput -match "Updates were rejected because the tip .* is behind its remote counterpart") {
-        Write-Host (" " * 4) "${CW}--${CR}推送被拒绝，因为你的本地版本落后于远程版本，请先`git pull`！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}推送被拒绝，因为你的本地版本落后于远程版本，请先`git pull`！$RC"
     } elseif ($jobOutput -match "error: failed to push some refs to") {
-        Write-Host (" " * 4) "${CW}--${CR}推送失败，请检查远程仓库状态！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}推送失败，请检查远程仓库状态！$RC"
     } elseif ($jobOutput -match "Permission denied|Authentication failed") {
-        Write-Host (" " * 4) "${CW}--${CR}权限不足，请检查账户或密钥配置！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}权限不足，请检查账户或密钥配置！$RC"
     } elseif ($jobOutput -match "index file is corrupte") {
-        Write-Host (" " * 4) "${CW}--${CR}Git索引文件已损坏，请尝试重建！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}Git索引文件已损坏，请尝试重建！$RC"
     } elseif ($jobOutput -match "pack has bad object") {
-        Write-Host (" " * 4) "${CW}--${CR}数据包中的对象损坏了！"
+        Write-Host (" " * 4) "${CW}----${CR}数据包中的对象损坏了！"
     } elseif ($jobOutput -match "HTTP 413|Request Entity Too Large") {
-        Write-Host (" " * 4) "${CW}--${CR}HTTP请求体太大，可能是文件过大或`gitignore`未生效！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}HTTP请求体太大，可能是文件过大或`gitignore`未生效！$RC"
     } elseif ($jobOutput -match "cannot lock ref") {
-        Write-Host (" " * 4) "${CW}--${CR}无法锁定引用，可能是其他Git操作正在进行或本地文件锁损坏！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}无法锁定引用，可能是其他Git操作正在进行或本地文件锁损坏！$RC"
     } elseif ($jobOutput -match "You are not in a git command") {
-        Write-Host (" " * 4) "${CW}--${CR}你当前不在Git命令中，请检查Git是否正确安装！$RC"
+        Write-Host (" " * 4) "${CW}----${CR}你当前不在Git命令中，请检查Git是否正确安装！$RC"
     } else {
         # 如果没有匹配到任何已知的错误，就直接输出原始错误信息
-        Write-Host (" " * 4) "${CW}--${CR}$jobOutput $RC"
+        Write-Host (" " * 4) "${CW}----${CR}$jobOutput $RC"
     }
 }
 function Clear-LastLine {
@@ -212,7 +212,6 @@ $lineSu = 1
 Write-Host  (" " * 4) "${CW}○---正在同步并部署网站...$RC"
 # 开始记录输出
 & {
-    Write-Host  (" " * 4) "${CW}--提交信息: $commitMessage $RC"
     Write-Host  (" " * 4) "${CW}--将所有修改都添加到暂存区中...$RC"
     Write-Host "${CW}----------------------------------------$RC"
     $jobOutput = git add . 2>&1 # 把所有修改都添加到暂存区
@@ -221,6 +220,18 @@ Write-Host  (" " * 4) "${CW}○---正在同步并部署网站...$RC"
         Write-Host  (" " * 4) "${CW}--${CG}所有修改已经添加到暂存区中$RC"
     }else {
         Write-Host  (" " * 4) "${CW}--${CR}修改未添加到暂存区中：$RC"
+        $IntError++
+        Resolve-GitError $jobOutput
+    }
+    Write-Host  (" " * 4) "${CW}--提交暂存区文件中...$RC"
+    Write-Host "${CW}----------------------------------------$RC"
+    $jobOutput = git commit -m $commitMessage 2>&1 # 提交暂存区文件
+    Clear-LastLine 2
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host  (" " * 4) "${CW}--${CG}已提交暂存区文件$RC"
+        Write-Host  (" " * 4) "${CW}----提交信息: $commitMessage $RC"
+    }else {
+        Write-Host  (" " * 4) "${CW}--${CR}提交暂存区文件失败：$RC"
         $IntError++
         Resolve-GitError $jobOutput
     }
