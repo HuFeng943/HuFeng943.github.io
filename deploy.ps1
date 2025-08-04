@@ -5,7 +5,7 @@ $CG = "`e[92m"
 $CY = "`e[93m"
 $CW = "`e[97m"
 $RC = "`e[0m"
-$lineSu = 1 # 计算要清空的行数
+$lineSu = 2 # 计算要清空的行数
 $Warn = 0 # 警告数量
 $DeployFailed = $False
 $TimeoutSeconds = 5 # 确认执行的超时时间
@@ -102,55 +102,13 @@ function Clear-LastLine {
     # 这样新的输出就会从这里开始，覆盖掉之前的内容
     [System.Console]::SetCursorPosition(0, $initialCursorTop - $LinesToClear)
 }
-function Confirm-Execution {
-    param(
-        [Parameter(Mandatory=$false)]
-        [int]$TimeoutSeconds = 5
-    )
 
-    # 获取当前时间
-    $startTime = [System.DateTime]::Now
-    $inputKey = $null
-
-    while ($true) {
-        # 检查是否有按键输入
-        if ([System.Console]::KeyAvailable) {
-            $inputKey = [System.Console]::ReadKey($true)
-            break
-        }
-        
-        # 计算剩余时间
-        $elapsedTime = ([System.DateTime]::Now - $startTime).TotalSeconds
-        $remainingTime = [System.Math]::Round($TimeoutSeconds - $elapsedTime)
-
-        # 倒计时结束，返回 true
-        if ($remainingTime -le 0) {
-            return $true
-        }
-
-        # 实时更新倒计时
-        Write-Host "倒计时：$remainingTime" -NoNewline @ColorWarning
-        Start-Sleep -Milliseconds 250
-        
-        # 清除倒计时数字，以便更新
-        $clearString = " " * ([string]$remainingTime.Length + 5)
-        Write-Host "$clearString`r" -NoNewline @ColorWarning
-    }
-
-    Write-Host "" # 换行
-
-    # 判断用户输入
-    if ($inputKey.KeyChar -eq 'y' -or $inputKey.KeyChar -eq 'Y') {
-        return $true
-    } else {
-        return $false
-    }
-}
 function Get-GitStatusFormatted {
     # 执行 git status 命令并捕获所有输出
     $statusOutput = git status 2>&1
+    $statusOutputString = $statusOutput | Out-String
     # 按行分割输出内容
-    $lines = $statusOutput.Split("`n")
+    $lines = $statusOutputString.Split("`n")
     # 提取分支信息和状态
     $branchInfoLine = $lines | Select-String -Pattern "^On branch\s+(.*)"
     $branchStatusLine = $lines | Select-String -Pattern "Your branch is (.*)"
@@ -207,8 +165,8 @@ function Get-GitStatusFormatted {
 
         # 倒计时结束，返回 true
         if ($remainingTime -le 0) {
-            Clear-LastLine 1
-            return $true
+            Clear-LastLine 3
+            return
         }
         # 实时更新倒计时
         Write-Host  (" " * 4) "${CY}倒计时：        $remainingTime"
@@ -222,7 +180,7 @@ function Get-GitStatusFormatted {
     # 判断用户输入
     if ($inputKey.KeyChar -eq 'y' -or $inputKey.KeyChar -eq 'Y') {
         Clear-LastLine 3
-        return $true
+        return
     } else {
         Clear-LastLine 3
         Write-Host  (" " * 4) "${CR}操作已取消，退出脚本$RC"
@@ -290,7 +248,6 @@ Get-GitStatusFormatted
 # 获取当前日期和时间，并格式化
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 $commitMessage = "Update at $timestamp"
-$lineSu = 1
 Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
 # 开始记录输出
 & {
@@ -354,7 +311,7 @@ foreach ($line in $tempOutput) {#计算要清空的行数
     }
 }
 Clear-LastLine $lineSu # 清空
-if($DeployFailed){
+if($DeployFailed = $true) {
     Write-Host  (" " * 4) "${CR}✘-同步和部署网站时出现错误，请检查输出$RC"
 }else {
     Write-Host  (" " * 4) "${CG}✔-同步和部署网站成功！$RC"
