@@ -220,8 +220,6 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
         Write-Host  (" " * 4) "${CW}----${CG}所有修改已经添加到暂存区中$RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}修改未添加到暂存区中：$RC"
-        Write-Host "${CW}--" -NoNewline
-        Resolve-GitError $jobOutput
         $IntError++
         Resolve-GitError $jobOutput
     }
@@ -235,7 +233,6 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}提交暂存区文件失败：$RC"
         $IntError++
-        Write-Host "${CW}--" -NoNewline
         Resolve-GitError $jobOutput
     }
     Write-Host  (" " * 4) "${CW}----同步远程仓库并 rebase 中...$RC"
