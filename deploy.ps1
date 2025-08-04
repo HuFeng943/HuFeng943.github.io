@@ -151,56 +151,56 @@ function Get-GitStatusFormatted {
 }
 # 先更新下主题
 Write-Host "${CW}----------------------------------------$RC"
-Write-Host  (" " * 4) "${CW}○---正在更新主题文件...$RC"
+Write-Host  (" " * 4) "${CW}○-正在更新主题文件...$RC"
 Write-Host "${CW}----------------------------------------$RC"
 $jobOutput = git submodule update --remote 2>&1
 Clear-LastLine 2
 if ($LASTEXITCODE -eq 0) {
-    Write-Host  (" " * 4) "${CG}✔---更新主题文件成功！$RC"
+    Write-Host  (" " * 4) "${CG}✔-更新主题文件成功！$RC"
 }else {
-    Write-Host  (" " * 4) "${CR}✘---更新主题文件失败：$RC"
+    Write-Host  (" " * 4) "${CR}✘-更新主题文件失败：$RC"
     $IntError++
     Resolve-GitError $jobOutput
 }
-Write-Host  (" " * 4) "${CW}○---正在重置所有主题文件...$RC"
+Write-Host  (" " * 4) "${CW}○-正在重置所有主题文件...$RC"
 Write-Host "${CW}----------------------------------------$RC"
 $jobOutput = git submodule foreach --recursive "git reset --hard && git clean -fdx" 2>&1# 删掉多余的主题文件
 Clear-LastLine 2
 if ($LASTEXITCODE -eq 0) {
-    Write-Host  (" " * 4) "${CG}✔---重置主题文件成功！$RC"
+    Write-Host  (" " * 4) "${CG}✔-重置主题文件成功！$RC"
     $themeList = ([regex]::Matches($jobOutput, "Entering 'themes/(.*?)'") | ForEach-Object { $_.Groups[1].Value }) -join "、"
-    Write-Host (" " * 4) "${CW}--拥有主题：$themeList $RC"
+    Write-Host (" " * 4) "${CW}----拥有主题：$themeList $RC"
 }else {
-    Write-Host  (" " * 4) "${CR}✘---重置主题文件失败：$RC"
+    Write-Host  (" " * 4) "${CR}✘-重置主题文件失败：$RC"
     $IntError++
     Resolve-GitError $jobOutput
 }
 # 删除构建文件
 if (-not (Test-Path -Path $publicPath)) {
     # 如果路径不存在
-    Write-Host  (" " * 4) "${CG}✔---没有本地构建文件$RC"
+    Write-Host  (" " * 4) "${CG}✔-没有本地构建文件$RC"
 } else {
-    Write-Host  (" " * 4) "${CW}○---正在删除本地构建文件...$RC"
+    Write-Host  (" " * 4) "${CW}○-正在删除本地构建文件...$RC"
     Write-Host "${CW}----------------------------------------$RC"
     try {
         # 如果路径存在，尝试删除它
         Remove-Item -Path $publicPath -Recurse -Force -ErrorAction Stop -ProgressAction SilentlyContinue
         Clear-LastLine 2
-        Write-Host  (" " * 4) "${CG}✔---删除本地构建文件成功！$RC"
+        Write-Host  (" " * 4) "${CG}✔-删除本地构建文件成功！$RC"
     } catch {
         Clear-LastLine 2
         # 根据错误类型进行判断
         $errorMessage = $_.Exception.Message
-        Write-Host (" " * 4) "${CR}✘---删除本地构建文件失败：$RC"
+        Write-Host (" " * 4) "${CR}✘-删除本地构建文件失败：$RC"
         if ($errorMessage -match "Access to the path") {
-            Write-Host (" " * 4) "${CW}--${CR}权限不足，无法删除该文件夹。$RC"
+            Write-Host (" " * 4) "${CW}----${CR}权限不足，无法删除该文件夹。$RC"
         } elseif ($errorMessage -match "because it is being used by another process") {
-            Write-Host (" " * 4) "${CW}--${CR}文件夹或文件正在被其他程序占用，请关闭相关程序后重试。$RC"
+            Write-Host (" " * 4) "${CW}----${CR}文件夹或文件正在被其他程序占用，请关闭相关程序后重试。$RC"
         } elseif ($errorMessage -match "Could not find a part of the path") {
-            Write-Host (" " * 4) "${CW}--${CR}路径不存在，可能在删除时已被移动或删除。$RC"
+            Write-Host (" " * 4) "${CW}----${CR}路径不存在，可能在删除时已被移动或删除。$RC"
         } else {
-            Write-Host (" " * 4) "${CW}--${CR}未知错误：$RC"
-            Write-Host (" " * 4) "${CW}--${CR}$errorMessage"
+            Write-Host (" " * 4) "${CW}----${CR}未知错误：$RC"
+            Write-Host (" " * 4) "${CW}----${CR}$errorMessage"
         }
     }
 }
@@ -209,17 +209,19 @@ if (-not (Test-Path -Path $publicPath)) {
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 $commitMessage = "Update at $timestamp"
 $lineSu = 1
-Write-Host  (" " * 4) "${CW}○---正在同步并部署网站...$RC"
+Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
 # 开始记录输出
 & {
-    Write-Host  (" " * 4) "${CW}--将所有修改都添加到暂存区中...$RC"
+    Write-Host  (" " * 4) "${CW}----将所有修改都添加到暂存区中...$RC"
     Write-Host "${CW}----------------------------------------$RC"
     $jobOutput = git add . 2>&1 # 把所有修改都添加到暂存区
     Clear-LastLine 2
     if ($LASTEXITCODE -eq 0) {
-        Write-Host  (" " * 4) "${CW}--${CG}所有修改已经添加到暂存区中$RC"
+        Write-Host  (" " * 4) "${CW}----${CG}所有修改已经添加到暂存区中$RC"
     }else {
-        Write-Host  (" " * 4) "${CW}--${CR}修改未添加到暂存区中：$RC"
+        Write-Host  (" " * 4) "${CW}----${CR}修改未添加到暂存区中：$RC"
+        Write-Host "${CW}--" -NoNewline
+        Resolve-GitError $jobOutput
         $IntError++
         Resolve-GitError $jobOutput
     }
@@ -228,39 +230,40 @@ Write-Host  (" " * 4) "${CW}○---正在同步并部署网站...$RC"
     $jobOutput = git commit -m $commitMessage 2>&1 # 提交暂存区文件
     Clear-LastLine 2
     if ($LASTEXITCODE -eq 0) {
-        Write-Host  (" " * 4) "${CW}--${CG}已提交暂存区文件$RC"
+        Write-Host  (" " * 4) "${CW}----${CG}已提交暂存区文件$RC"
         Write-Host  (" " * 4) "${CW}----提交信息: $commitMessage $RC"
     }else {
-        Write-Host  (" " * 4) "${CW}--${CR}提交暂存区文件失败：$RC"
+        Write-Host  (" " * 4) "${CW}----${CR}提交暂存区文件失败：$RC"
         $IntError++
+        Write-Host "${CW}--" -NoNewline
         Resolve-GitError $jobOutput
     }
-    Write-Host  (" " * 4) "${CW}--同步远程仓库并 rebase 中...$RC"
+    Write-Host  (" " * 4) "${CW}----同步远程仓库并 rebase 中...$RC"
     Write-Host "${CW}----------------------------------------$RC"
     $jobOutput = git pull --rebase 2>&1 # 同步远程仓库并 rebase，避免产生合并提交
     Clear-LastLine 2
     if ($LASTEXITCODE -eq 0) {
-        Write-Host  (" " * 4) "${CW}--${CG}同步远程仓库并 rebase 成功！$RC"
+        Write-Host  (" " * 4) "${CW}----${CG}同步远程仓库并 rebase 成功！$RC"
     }else {
-        Write-Host  (" " * 4) "${CW}--${CR}同步远程仓库并 rebase 失败：$RC"
+        Write-Host  (" " * 4) "${CW}----${CR}同步远程仓库并 rebase 失败：$RC"
         $IntError++
         Resolve-GitError $jobOutput
     }
-    Write-Host  (" " * 4) "${CW}--提交文件变更中...$RC"
+    Write-Host  (" " * 4) "${CW}----提交文件变更中...$RC"
     Write-Host "${CW}----------------------------------------$RC"
     $jobOutput = git commit -m $commitMessage 2>&1 
     Clear-LastLine 2
     if ($LASTEXITCODE -eq 0) {
-        Write-Host  (" " * 4) "${CW}--${CG}提交文件变更成功！$RC"
+        Write-Host  (" " * 4) "${CW}----${CG}提交文件变更成功！$RC"
     }else {
-        Write-Host  (" " * 4) "${CW}--${CR}提交文件变更失败：$RC"
+        Write-Host  (" " * 4) "${CW}----${CR}提交文件变更失败：$RC"
         $IntError++
         Resolve-GitError $jobOutput
     }
 } 6>&1 | Tee-Object -Variable tempOutput
 
 Start-Sleep -Seconds 3
-#exit 0
+exit 0
 
 foreach ($line in $tempOutput) {#计算要清空的行数
     if ($line.MessageData.Message.Trim().Length -eq 0) {
