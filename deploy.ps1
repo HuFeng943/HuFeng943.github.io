@@ -311,7 +311,7 @@ foreach ($line in $tempOutput) {#计算要清空的行数
     }
 }
 Clear-LastLine $lineSu # 清空
-if($DeployFailed = $true) {
+if($DeployFailed) {
     Write-Host  (" " * 4) "${CR}✘-同步和部署网站时出现错误，请检查输出$RC"
 }else {
     Write-Host  (" " * 4) "${CG}✔-同步和部署网站成功！$RC"
