@@ -229,31 +229,31 @@ Write-Host  (" " * 4) "${CW}○-正在同步并部署网站...$RC"
     Clear-LastLine 2
     if ($LASTEXITCODE -eq 0) {
         Write-Host  (" " * 4) "${CW}----${CG}已提交暂存区文件$RC"
-        Write-Host  (" " * 4) "${CW}----提交信息: $commitMessage $RC"
+        Write-Host  (" " * 4) "${CW}------提交信息: $commitMessage $RC"
     }else {
         Write-Host  (" " * 4) "${CW}----${CR}提交暂存区文件失败：$RC"
         $IntError++
         Resolve-GitError $jobOutput
     }
-    Write-Host  (" " * 4) "${CW}----同步远程仓库并 rebase 中...$RC"
+    Write-Host  (" " * 4) "${CW}----将本地重置到最新的提交中...$RC"
     Write-Host "${CW}----------------------------------------$RC"
-    $jobOutput = git pull --rebase 2>&1 # 同步远程仓库并 rebase，避免产生合并提交
+    $jobOutput = git reset --hard HEAD 2>&1 # 同步远程仓库并 rebase，避免产生合并提交
     Clear-LastLine 2
     if ($LASTEXITCODE -eq 0) {
-        Write-Host  (" " * 4) "${CW}----${CG}同步远程仓库并 rebase 成功！$RC"
+        Write-Host  (" " * 4) "${CW}----${CG}本地重置到最新的提交成功！$RC"
     }else {
-        Write-Host  (" " * 4) "${CW}----${CR}同步远程仓库并 rebase 失败：$RC"
+        Write-Host  (" " * 4) "${CW}----${CR}本地重置到最新的提交失败：$RC"
         $IntError++
         Resolve-GitError $jobOutput
     }
-    Write-Host  (" " * 4) "${CW}----提交文件变更中...$RC"
+    Write-Host  (" " * 4) "${CW}----覆盖远程仓库的分支中...$RC"
     Write-Host "${CW}----------------------------------------$RC"
-    $jobOutput = git commit -m $commitMessage 2>&1 
+    $jobOutput = git push --force 2>&1 
     Clear-LastLine 2
     if ($LASTEXITCODE -eq 0) {
-        Write-Host  (" " * 4) "${CW}----${CG}提交文件变更成功！$RC"
+        Write-Host  (" " * 4) "${CW}----${CG}覆盖远程仓库的分支成功！$RC"
     }else {
-        Write-Host  (" " * 4) "${CW}----${CR}提交文件变更失败：$RC"
+        Write-Host  (" " * 4) "${CW}----${CR}覆盖远程仓库的分支失败：$RC"
         $IntError++
         Resolve-GitError $jobOutput
     }
