@@ -5,6 +5,7 @@ $CG = "`e[92m"
 $CY = "`e[93m"
 $CW = "`e[97m"
 $RC = "`e[0m"
+$lineSu = 1 # 计算要清空的行数
 $Warn = 0 # 警告数量
 $DeployFailed = $False
 $TimeoutSeconds = 5 # 确认执行的超时时间
