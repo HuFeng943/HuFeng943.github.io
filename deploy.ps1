@@ -117,7 +117,7 @@ function Get-GitStatusFormatted {
     if ($branchInfoLine) {
         $branchName = $branchInfoLine.Matches.Groups[1].Value.Trim()
         if ($branchName -ne "main") {
-            Write-Host  (" " * 4) "${CY}警告: 当前分支不是 `main`，而是 `$branchName` $RC"
+            Write-Host  (" " * 4) "${CY}警告: 当前分支不是 'main'，而是 ${branchName} $RC"
             $Warn++
         }
     }
@@ -126,7 +126,7 @@ function Get-GitStatusFormatted {
     if ($branchStatusLine) {
         $statusMessage = $branchStatusLine.Matches.Groups[1].Value.Trim()
         if ($statusMessage -ne "up to date with 'origin/main'.") {
-            Write-Host  (" " * 4) "${CY}警告: 分支状态不完全同步，当前状态是 `$statusMessage` $RC"
+            Write-Host  (" " * 4) "${CY}警告: 分支状态不完全同步，当前状态是 ${statusMessage} $RC"
             $Warn++
         }
     }
