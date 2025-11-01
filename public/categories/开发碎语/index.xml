@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>开发碎语 on HuFeng943&#39;s Blog</title>
+    <link>http://localhost:1313/categories/%E5%BC%80%E5%8F%91%E7%A2%8E%E8%AF%AD/</link>
+    <description>Recent content in 开发碎语 on HuFeng943&#39;s Blog</description>
+    <generator>Hugo -- 0.148.2</generator>
+    <language>zh</language>
+    <copyright>本站文章全部采用 CC BY-NC 4.0 许可协议</copyright>
+    <lastBuildDate>Sat, 01 Nov 2025 12:43:11 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/%E5%BC%80%E5%8F%91%E7%A2%8E%E8%AF%AD/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Index 0 out of bounds for length 0 不一定是你Android代码有问题</title>
+      <link>http://localhost:1313/posts/wearos-debug-index-out-of-bounds-magic/</link>
+      <pubDate>Sat, 01 Nov 2025 12:43:11 +0800</pubDate>
+      <guid>http://localhost:1313/posts/wearos-debug-index-out-of-bounds-magic/</guid>
+      <description>&lt;h2 id=&#34;省流&#34;&gt;省流&lt;/h2&gt;
+&lt;p&gt;不是代码问题，而是Android Studio自带的模拟器抽风了&lt;br&gt;
+把qemu进程给kill了后重启模拟器即可&lt;/p&gt;
+&lt;h2 id=&#34;详细描述&#34;&gt;详细描述&lt;/h2&gt;
+&lt;h3 id=&#34;故事背景&#34;&gt;故事背景&lt;/h3&gt;
+&lt;p&gt;原本正在好好地调试我的Wear OS项目&lt;br&gt;
+在一次运行的时候，突然AS提示运行出错&lt;code&gt;Index 0 out of bounds for length 0&lt;/code&gt;&lt;br&gt;
+并且没有办法运行，因为当时我新写了个有关数组的代码，理所当然是之前代码出现了问题&lt;/p&gt;
+&lt;h3 id=&#34;没有用的解决方案&#34;&gt;没有用的解决方案&lt;/h3&gt;
+&lt;p&gt;于是我重新调试了整个逻辑，结果发现都没有效果&lt;br&gt;
+整个文件IDE都没有报错，但是在运行时就出错，非常奇怪&lt;/p&gt;
+&lt;p&gt;我甚至把有关的 Compose 代码全部注释掉，结果毫无用处&lt;br&gt;
+然后我又尝试排查系统组件，因为我都把我弄的石山给撤走了，只能怀疑它了&lt;br&gt;
+我把&lt;code&gt;AndroidManifest.xml&lt;/code&gt;里能注释的都注释了，把AS给的那些默认的框架代码也注释掉&lt;br&gt;
+程序变成了一个空壳，但是还是报错&lt;/p&gt;
+&lt;p&gt;后来在不经意发现 Wear OS 的模拟器是卡死的，同时在AS里面也没办法重启停止&lt;br&gt;
+于是我关闭了AS，并在任务管理器里面把&lt;code&gt;qemu-system-x86_64.exe&lt;/code&gt;给终止
+重启AS后可以重启模拟器，于是就恢复正常了&lt;/p&gt;
+&lt;h3 id=&#34;怀疑的可能&#34;&gt;怀疑的可能&lt;/h3&gt;
+&lt;p&gt;不知道为什么AS的 Android 模拟器老是卡死&lt;br&gt;
+而且不单单指我个例，这次卡死后导致 ADB 通信异常&lt;br&gt;
+AS得了错误的数据，导致报错&lt;br&gt;
+另外还有&lt;code&gt;Emulator failed to connect within 5 minutes&lt;/code&gt;之类的报错&lt;br&gt;
+也是模拟器的问题&lt;/p&gt;
+&lt;h2 id=&#34;总结与教训&#34;&gt;总结与教训&lt;/h2&gt;
+&lt;p&gt;&lt;del&gt;所以说这个AS是真史啊&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;这个报错非常有误导性&lt;code&gt;Index 0 out of bounds for length 0&lt;/code&gt;&lt;br&gt;
+让人因为是自己的问题，结果只是AS自己找不到模拟器&lt;br&gt;
+以后还是需要真机调试啊&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,68 @@
+<!doctype html><html lang=zh dir=auto data-theme=dark><head><meta name=generator content="Hugo 0.148.2"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>HuFeng943's Blog</title><meta name=description content="废话与经验记录"><meta name=author content="HuFeng943"><link rel=canonical href=http://localhost:1313/><link crossorigin=anonymous href=/assets/css/stylesheet.2f0ce6dc98892f12e66dedfd02831ef49801a6c9df4114b2d6e208737f7dcea6.css integrity="sha256-Lwzm3JiJLxLmbe39AoMe9JgBpsnfQRSy1uIIc399zqY=" rel="preload stylesheet" as=style><link rel=icon href=http://localhost:1313/favicon.ico><link rel=icon type=image/png sizes=16x16 href=http://localhost:1313/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=http://localhost:1313/favicon-32x32.png><link rel=apple-touch-icon href=http://localhost:1313/apple-touch-icon.png><link rel=mask-icon href=http://localhost:1313/safari-pinned-tab.svg><meta name=theme-color content="#0076b9"><meta name=msapplication-TileColor content="#0076b9"><link rel=alternate type=application/rss+xml href=http://localhost:1313/index.xml title=rss><link rel=alternate type=application/json href=http://localhost:1313/index.json title=json><link rel=alternate hreflang=zh href=http://localhost:1313/><noscript><style>#theme-toggle,.top-link{display:none}</style></noscript><meta property="og:url" content="http://localhost:1313/"><meta property="og:site_name" content="HuFeng943's Blog"><meta property="og:title" content="HuFeng943's Blog"><meta property="og:description" content="废话与经验记录"><meta property="og:locale" content="zh"><meta property="og:type" content="website"><meta name=twitter:card content="summary"><meta name=twitter:title content><meta name=twitter:description content="废话与经验记录"><script type=application/ld+json>{"@context":"https://schema.org","@type":"Organization","name":"HuFeng943's Blog","url":"http://localhost:1313/","description":"废话与经验记录","logo":"http://localhost:1313/favicon.ico","sameAs":[]}</script></head><body class=list id=top><header class=header><nav class=nav><div class=logo><a href=http://localhost:1313/ accesskey=h title="HuFeng943's Blog (Alt + H)">HuFeng943's Blog</a><div class=logo-switches></div></div><ul id=menu><li><a href=http://localhost:1313/categories/ title=分类><span>分类</span></a></li><li><a href=http://localhost:1313/search/ title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=http://localhost:1313/about/ title=找我？><span>找我？</span></a></li></ul></nav></header><main class=main><article class="first-entry home-info"><header class=entry-header><h1>你好！👋</h1></header><div class=entry-content>欢迎来到我的博客，我会在这里记录一些生活中的琐事和技术经验。</div><footer class=entry-footer><div class=social-icons></div></footer></article><div id=post-list-container><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>Index 0 out of bounds for length 0 不一定是你Android代码有问题</h2></header><div class=entry-content><p>省流 不是代码问题，而是Android Studio自带的模拟器抽风了
+把qemu进程给kill了后重启模拟器即可
+详细描述 故事背景 原本正在好好地调试我的Wear OS项目
+在一次运行的时候，突然AS提示运行出错Index 0 out of bounds for length 0
+并且没有办法运行，因为当时我新写了个有关数组的代码，理所当然是之前代码出现了问题
+没有用的解决方案 于是我重新调试了整个逻辑，结果发现都没有效果
+整个文件IDE都没有报错，但是在运行时就出错，非常奇怪
+我甚至把有关的 Compose 代码全部注释掉，结果毫无用处
+然后我又尝试排查系统组件，因为我都把我弄的石山给撤走了，只能怀疑它了
+我把AndroidManifest.xml里能注释的都注释了，把AS给的那些默认的框架代码也注释掉
+程序变成了一个空壳，但是还是报错
+后来在不经意发现 Wear OS 的模拟器是卡死的，同时在AS里面也没办法重启停止
+于是我关闭了AS，并在任务管理器里面把qemu-system-x86_64.exe给终止 重启AS后可以重启模拟器，于是就恢复正常了
+怀疑的可能 不知道为什么AS的 Android 模拟器老是卡死
+而且不单单指我个例，这次卡死后导致 ADB 通信异常
+AS得了错误的数据，导致报错
+另外还有Emulator failed to connect within 5 minutes之类的报错
+也是模拟器的问题
+总结与教训 所以说这个AS是真史啊
+这个报错非常有误导性Index 0 out of bounds for length 0
+让人因为是自己的问题，结果只是AS自己找不到模拟器
+以后还是需要真机调试啊</p></div><footer class=entry-footer><span title='2025-11-01 12:43:11 +0800 CST'>2025年11月1日</span>&nbsp;·&nbsp;<span>1 分钟</span>&nbsp;·&nbsp;<span>HuFeng943</span></footer><a class=entry-link aria-label="post link to Index 0 out of bounds for length 0 不一定是你Android代码有问题" href=http://localhost:1313/posts/wearos-debug-index-out-of-bounds-magic/></a></article><article class=post-entry><header class=entry-header><h2 class=entry-hint-parent>[自用]软件收藏夹</h2></header><div class=entry-content><p>收藏我常用的不同用途的软件，方便恢复工作环境。
+一些过于常见的就不说了，文章会不定时更新。
+Windows 上网工具 浏览器 Firefox
+原先用了很久的Chromium内核Edge了,微软还给我送了两次肯德基100元代金劵
+不过变得越来越臃肿，对我来说越来越不方便了，于是就换成Firefox了。
+虽然网上说Firefox对一些网站支持不太好，但是目前我没遇到（可能是网上习惯不同）
+注意别下到北京火狐了(www.firefox.com.cn),虽然2025年9月29日后就关闭了
+浏览器插件 沉浸式翻译
+强烈推荐，可以指定许多种翻译API
+同时可以双语对照、油管视频字幕翻译
+篡改猴(Tampermonkey)
+这个不用介绍了吧
+小电视空降助手
+可以跳过B站的广告，功能来自油管插件SponsorBlock
+主要是根据社区标记广告的部分然后自动跳过，也会标记视频是不是收了钱的广告/推广
+不知道哪个神人把原神官方账号的所有视频都标了广告，现已整改
+Dark Reader
+让没用黑暗模式的网页变成黑暗样式
+在大部分网站上工作的很好
+uBlock Origin
+免费好用开源的请求过滤工具，主要用于拦截广告
+感觉比其他的拦截广告插件要轻量很多
+拦截Youtube的视频广告也不会重新提示
+代理软件 Clash Verge Rev
+维护勤快，Tauri做的UI也不错，就是不太流畅，有时候会卡一下，目前在用
+FlClash
+用了是Material You设计，在Window上面看起来有点奇怪，相比Clash Verge Rev更加流畅
+不过在我的电脑上，休眠后重启会遇到Bug，就换掉了
+系统工具 效率工具 Flow Launcher
+快捷软件启动器，可以按快捷键（默认Alt+空格）打开一个搜索框
+在搜索框内输入要启动的应用名就可以快速启动~~，这Win+S搜索也可以吧~~
+但是还是有不同之处的，有空我会专门写一篇文章介绍一下（挖坑）
+Everything
+如果你要搜文件，这个比Windows自带的文件搜索强万倍，十分快速，轻量
+Snipaste
+一个贴图工具，但是截图也很好用
+基本上我把它当作个截图工具。有时候需要对照的时候，贴图功能用上
+软件有专业付费版，不过完全没必要，只要你是个人用户，用免费版本完全够用
+OpenHashTab
+在文件或文件夹的属性页面加一个“哈希信息”的标签栏，可以很方便的查看文件的哈希值
+如果是文件夹则会执行遍历，也可以保存哈希信息，用于分享校验
+硬件工具 OpenRGB
+...</p></div><footer class=entry-footer><span title='2025-08-03 11:28:33 +0800 CST'>2025年8月3日</span>&nbsp;·&nbsp;<span>1 分钟</span>&nbsp;·&nbsp;<span>HuFeng943</span></footer><a class=entry-link aria-label="post link to [自用]软件收藏夹" href=http://localhost:1313/posts/software-favorites/></a></article></div><div id=infinite-scroll-sentinel style=height:1px;margin-top:-1px></div><script src=/js/infinite-scroll.js></script></main><footer class=footer><span>本站文章全部采用 <a href=https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans target=_blank>CC BY-NC 4.0</a> 许可协议</span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script></body></html>
